@@ -3,23 +3,25 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Flower Game</title>
+    <title>Unity WebGL Player | FlowerGameStable</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <div id="unity-banner" style="display: none;" class="unity-banner">
-        <div id="unity-loading-bar2">
-          <div id="unity-logo2"></div>
-        </div>
-      </div>
-      <canvas id="unity-canvas" width=960 height=600></canvas>
+      <canvas id="unity-canvas" width=960 height=375></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
-        <div id="load-procent">0%</div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
       </div>
       <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">FlowerGameStable</div>
+      </div>
     </div>
     <script>
       var container = document.querySelector("#unity-container");
@@ -28,8 +30,6 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
-      var loadProcent = document.querySelector("#load-procent");
-      var twoIcon = document.querySelector("#unity-banner");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
@@ -58,9 +58,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/FlowerGameBuild.loader.js";
       var config = {
-        dataUrl: buildUrl + "/FlowerGameBuild.data.br",
-        frameworkUrl: buildUrl + "/FlowerGameBuild.framework.js.br",
-        codeUrl: buildUrl + "/FlowerGameBuild.wasm.br",
+        dataUrl: buildUrl + "/FlowerGameBuild.data",
+        frameworkUrl: buildUrl + "/FlowerGameBuild.framework.js",
+        codeUrl: buildUrl + "/FlowerGameBuild.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "FlowerGameStable",
@@ -94,11 +94,9 @@
         unityShowBanner('WebGL builds are not supported on mobile devices.');
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-        var windowHeight = window.innerHeight;
-        var windowWidth = (windowHeight * 9) / 18;
 
-        canvas.style.height = windowHeight + 'px';
-        canvas.style.width = windowWidth + 'px';
+        canvas.style.width = "960px";
+        canvas.style.height = "375px";
       }
 
       loadingBar.style.display = "block";
@@ -107,13 +105,12 @@
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          loadProcent.textContent = Math.round(100 * progress) + "%";
+          progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
-          twoIcon.style.display = "block";
-          setTimeout(() => {
-            twoIcon.style.display = "none";
-          }, 4000);
           loadingBar.style.display = "none";
+          fullscreenButton.onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
         }).catch((message) => {
           alert(message);
         });
