@@ -6,6 +6,7 @@
     <title>Flower Game</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -119,6 +120,9 @@
         });
       };
       document.body.appendChild(script);
+      window.Telegram.WebApp.BackButton.onClick(function () {
+        window.location.href = 'https://webapp.floya.ru/#/';
+      });
     </script>
   </body>
 </html>
