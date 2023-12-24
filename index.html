@@ -120,9 +120,11 @@
         });
       };
       document.body.appendChild(script);
+
       window.Telegram.WebApp.BackButton.onClick(function () {
         window.location.href = 'https://webapp.floya.ru/#/';
       });
+      window.Telegram.WebApp.BackButton.show();
     </script>
   </body>
 </html>
