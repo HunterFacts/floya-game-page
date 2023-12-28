@@ -6,6 +6,10 @@
     <title>Flower Game</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+  crossorigin="anonymous"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
   </head>
   <body>
@@ -116,6 +120,10 @@
           }, 4000);
           loadingBar.style.display = "none";
         }).catch((message) => {
+          $.ajax({
+            url: "https://backend.floya.ru/api/stories/LogGame",
+            data: {_error: message}
+          });
           alert(message);
         });
       };
